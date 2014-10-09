@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "HomeScreenCollectionViewController.h"
 
 @interface AppDelegate ()
 

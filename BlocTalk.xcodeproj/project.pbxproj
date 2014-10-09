@@ -14,6 +14,9 @@
 		0D21856919E5C1C3007F26DA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D21856819E5C1C3007F26DA /* Images.xcassets */; };
 		0D21856C19E5C1C3007F26DA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D21856A19E5C1C3007F26DA /* LaunchScreen.xib */; };
 		0D21857819E5C1C3007F26DA /* BlocTalkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D21857719E5C1C3007F26DA /* BlocTalkTests.m */; };
+		0D21858319E5C56E007F26DA /* HomeScreenCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D21858219E5C56E007F26DA /* HomeScreenCollectionViewController.m */; };
+		0D49313819E6EB2200396C18 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D49313719E6EB2200396C18 /* DataSource.m */; };
+		0D49313B19E7165E00396C18 /* HomeScreenCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,12 @@
 		0D21857119E5C1C3007F26DA /* BlocTalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocTalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D21857619E5C1C3007F26DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0D21857719E5C1C3007F26DA /* BlocTalkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlocTalkTests.m; sourceTree = "<group>"; };
+		0D21858119E5C56E007F26DA /* HomeScreenCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeScreenCollectionViewController.h; sourceTree = "<group>"; };
+		0D21858219E5C56E007F26DA /* HomeScreenCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeScreenCollectionViewController.m; sourceTree = "<group>"; };
+		0D49313619E6EB2200396C18 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
+		0D49313719E6EB2200396C18 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		0D49313919E7165E00396C18 /* HomeScreenCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeScreenCollectionViewCell.h; sourceTree = "<group>"; };
+		0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeScreenCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,12 +92,18 @@
 			children = (
 				0D21855F19E5C1C3007F26DA /* AppDelegate.h */,
 				0D21856019E5C1C3007F26DA /* AppDelegate.m */,
-				0D21856219E5C1C3007F26DA /* ViewController.h */,
-				0D21856319E5C1C3007F26DA /* ViewController.m */,
-				0D21856519E5C1C3007F26DA /* Main.storyboard */,
+				0D49313619E6EB2200396C18 /* DataSource.h */,
+				0D49313719E6EB2200396C18 /* DataSource.m */,
+				0D21858119E5C56E007F26DA /* HomeScreenCollectionViewController.h */,
+				0D21858219E5C56E007F26DA /* HomeScreenCollectionViewController.m */,
 				0D21856819E5C1C3007F26DA /* Images.xcassets */,
 				0D21856A19E5C1C3007F26DA /* LaunchScreen.xib */,
+				0D21856519E5C1C3007F26DA /* Main.storyboard */,
+				0D49313919E7165E00396C18 /* HomeScreenCollectionViewCell.h */,
+				0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */,
 				0D21855B19E5C1C3007F26DA /* Supporting Files */,
+				0D21856219E5C1C3007F26DA /* ViewController.h */,
+				0D21856319E5C1C3007F26DA /* ViewController.m */,
 			);
 			path = BlocTalk;
 			sourceTree = "<group>";
@@ -168,6 +183,7 @@
 				TargetAttributes = {
 					0D21855719E5C1C3007F26DA = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = FD5BJ4YK4C;
 					};
 					0D21857019E5C1C3007F26DA = {
 						CreatedOnToolsVersion = 6.0;
@@ -220,8 +236,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D21856419E5C1C3007F26DA /* ViewController.m in Sources */,
+				0D49313B19E7165E00396C18 /* HomeScreenCollectionViewCell.m in Sources */,
+				0D49313819E6EB2200396C18 /* DataSource.m in Sources */,
 				0D21856119E5C1C3007F26DA /* AppDelegate.m in Sources */,
 				0D21855E19E5C1C3007F26DA /* main.m in Sources */,
+				0D21858319E5C56E007F26DA /* HomeScreenCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BlocTalk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -355,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BlocTalk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -414,6 +435,7 @@
 				0D21857D19E5C1C3007F26DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0D21857E19E5C1C3007F26DA /* Build configuration list for PBXNativeTarget "BlocTalkTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +444,7 @@
 				0D21858019E5C1C3007F26DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

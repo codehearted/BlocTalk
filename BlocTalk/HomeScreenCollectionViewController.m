@@ -64,6 +64,7 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     //    UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
     cell.cellImage.image = (indexPath.row % 2 ? [UIImage imageNamed:@"1"] : [UIImage imageNamed:@"2"]);
+    cell.cellLabel.text = [NSString stringWithFormat:@"Cell %d",(int)indexPath.row];
     cell.backgroundColor = [UIColor whiteColor];
     
     return cell;

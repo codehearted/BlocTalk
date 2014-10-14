@@ -73,12 +73,19 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3TA-Hy-oTe">
                                             <rect key="frame" x="0.0" y="0.0" width="181" height="189"/>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bn-Tr-0Ex">
+                                            <rect key="frame" x="43" y="159" width="94" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="cellImage" destination="3TA-Hy-oTe" id="3pO-tX-peV"/>
+                                    <outlet property="cellLabel" destination="8bn-Tr-0Ex" id="wDt-tF-wJN"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -91,7 +98,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJq-GQ-MK2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1931" y="813"/>
+            <point key="canvasLocation" x="1931" y="825"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="W4O-MC-weT">

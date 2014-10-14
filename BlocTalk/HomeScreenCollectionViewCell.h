@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface HomeScreenCollectionViewCell : UICollectionViewCell
+@property (strong, nonatomic) IBOutlet UIImageView *cellImage;
 
 @end

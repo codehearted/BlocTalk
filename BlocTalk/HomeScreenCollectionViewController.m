@@ -16,7 +16,7 @@
 
 @implementation HomeScreenCollectionViewController
 
-static NSString * const reuseIdentifier = @"Cell";
+static NSString * const reuseIdentifier = @"contactCollectionCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +25,8 @@ static NSString * const reuseIdentifier = @"Cell";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    //        [self.collectionView registerClass:[HomeScreenCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    //    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
 }
 
@@ -47,9 +48,13 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSInteger itemsCount = [DataSource sharedInstance].contactList.count;
-    itemsCount = 1;
+    itemsCount = 3;
     NSLog(@"Got %d items",(int)itemsCount);
     return itemsCount;
 }
@@ -57,9 +62,10 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HomeScreenCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
- //   UIImageView *cellIcon = (UIImageView*)[[cell subviews] lastObject];
-    cellIcon.image = [UIImage imageNamed:@"1"];
+    //    UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
+    cell.cellImage.image = (indexPath.row % 2 ? [UIImage imageNamed:@"1"] : [UIImage imageNamed:@"2"]);
+    cell.cellLabel.text = [NSString stringWithFormat:@"Cell %d",(int)indexPath.row];
+    cell.backgroundColor = [UIColor whiteColor];
     
     return cell;
 }

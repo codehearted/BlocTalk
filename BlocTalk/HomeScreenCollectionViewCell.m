@@ -10,4 +10,14 @@
 
 @implementation HomeScreenCollectionViewCell
 
+@synthesize cellImage;
+@synthesize cellNameLabel;
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"Got touches on %@!", cellNameLabel.text);
+//    NSLog(@"Got touches! These: \n%@",[touches description]);
+    
+}
 @end

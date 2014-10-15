@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D21855E19E5C1C3007F26DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D21855D19E5C1C3007F26DA /* main.m */; };
 		0D21856119E5C1C3007F26DA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D21856019E5C1C3007F26DA /* AppDelegate.m */; };
-		0D21856419E5C1C3007F26DA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D21856319E5C1C3007F26DA /* ViewController.m */; };
 		0D21856719E5C1C3007F26DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D21856519E5C1C3007F26DA /* Main.storyboard */; };
 		0D21856919E5C1C3007F26DA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D21856819E5C1C3007F26DA /* Images.xcassets */; };
 		0D21856C19E5C1C3007F26DA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D21856A19E5C1C3007F26DA /* LaunchScreen.xib */; };
@@ -17,6 +16,8 @@
 		0D21858319E5C56E007F26DA /* HomeScreenCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D21858219E5C56E007F26DA /* HomeScreenCollectionViewController.m */; };
 		0D49313819E6EB2200396C18 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D49313719E6EB2200396C18 /* DataSource.m */; };
 		0D49313B19E7165E00396C18 /* HomeScreenCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */; };
+		0D9C43C919EEE36B00089848 /* ContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C43C819EEE36B00089848 /* ContactList.m */; };
+		0D9C43CD19EEF89500089848 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C43CB19EEF89500089848 /* ConversationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,8 +36,6 @@
 		0D21855D19E5C1C3007F26DA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0D21855F19E5C1C3007F26DA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0D21856019E5C1C3007F26DA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		0D21856219E5C1C3007F26DA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0D21856319E5C1C3007F26DA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0D21856619E5C1C3007F26DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0D21856819E5C1C3007F26DA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0D21856B19E5C1C3007F26DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -49,6 +48,10 @@
 		0D49313719E6EB2200396C18 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
 		0D49313919E7165E00396C18 /* HomeScreenCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeScreenCollectionViewCell.h; sourceTree = "<group>"; };
 		0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeScreenCollectionViewCell.m; sourceTree = "<group>"; };
+		0D9C43C719EEE36B00089848 /* ContactList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactList.h; sourceTree = "<group>"; };
+		0D9C43C819EEE36B00089848 /* ContactList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactList.m; sourceTree = "<group>"; };
+		0D9C43CA19EEF89500089848 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
+		0D9C43CB19EEF89500089848 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,18 +95,20 @@
 			children = (
 				0D21855F19E5C1C3007F26DA /* AppDelegate.h */,
 				0D21856019E5C1C3007F26DA /* AppDelegate.m */,
+				0D9C43C719EEE36B00089848 /* ContactList.h */,
+				0D9C43C819EEE36B00089848 /* ContactList.m */,
 				0D49313619E6EB2200396C18 /* DataSource.h */,
 				0D49313719E6EB2200396C18 /* DataSource.m */,
+				0D49313919E7165E00396C18 /* HomeScreenCollectionViewCell.h */,
+				0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */,
 				0D21858119E5C56E007F26DA /* HomeScreenCollectionViewController.h */,
 				0D21858219E5C56E007F26DA /* HomeScreenCollectionViewController.m */,
 				0D21856819E5C1C3007F26DA /* Images.xcassets */,
 				0D21856A19E5C1C3007F26DA /* LaunchScreen.xib */,
 				0D21856519E5C1C3007F26DA /* Main.storyboard */,
-				0D49313919E7165E00396C18 /* HomeScreenCollectionViewCell.h */,
-				0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */,
 				0D21855B19E5C1C3007F26DA /* Supporting Files */,
-				0D21856219E5C1C3007F26DA /* ViewController.h */,
-				0D21856319E5C1C3007F26DA /* ViewController.m */,
+				0D9C43CA19EEF89500089848 /* ConversationViewController.h */,
+				0D9C43CB19EEF89500089848 /* ConversationViewController.m */,
 			);
 			path = BlocTalk;
 			sourceTree = "<group>";
@@ -235,8 +240,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D21856419E5C1C3007F26DA /* ViewController.m in Sources */,
+				0D9C43C919EEE36B00089848 /* ContactList.m in Sources */,
 				0D49313B19E7165E00396C18 /* HomeScreenCollectionViewCell.m in Sources */,
+				0D9C43CD19EEF89500089848 /* ConversationViewController.m in Sources */,
 				0D49313819E6EB2200396C18 /* DataSource.m in Sources */,
 				0D21856119E5C1C3007F26DA /* AppDelegate.m in Sources */,
 				0D21855E19E5C1C3007F26DA /* main.m in Sources */,

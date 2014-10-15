@@ -9,6 +9,7 @@
 #import "HomeScreenCollectionViewController.h"
 #import "HomeScreenCollectionViewCell.h"
 #import "DataSource.h"
+#import "ContactList.h"
 
 @interface HomeScreenCollectionViewController ()
 
@@ -16,16 +17,32 @@
 
 @implementation HomeScreenCollectionViewController
 
-static NSString * const reuseIdentifier = @"Cell";
+{
+    NSArray *activeConverstations;
+}
+
+static NSString * const reuseIdentifier = @"contactCollectionCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
+    ContactList *cell1 = [ContactList new];
+    cell1.name = @"Jane D";
+    cell1.thumbnailImage = @"1.jpg";
     
-    // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    ContactList *cell2 = [ContactList new];
+    cell2.name = @"Peter R";
+    cell2.thumbnailImage = @"2.jpg";
+    
+    ContactList *cell3 = [ContactList new];
+    cell3.name = @"Mason P";
+    cell3.thumbnailImage = @"3.jpg";
+    
+    ContactList *cell4 = [ContactList new];
+    cell4.name = @"John S";
+    cell4.thumbnailImage = @"4.jpg";
+    
+    activeConverstations = [NSArray arrayWithObjects:cell1, cell2, cell3, cell4, nil];
     
 }
 
@@ -46,20 +63,29 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark <UICollectionViewDataSource>
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSInteger itemsCount = [DataSource sharedInstance].contactList.count;
-    itemsCount = 1;
+    itemsCount = 4;
     NSLog(@"Got %d items",(int)itemsCount);
     return itemsCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     HomeScreenCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
- //   UIImageView *cellIcon = (UIImageView*)[[cell subviews] lastObject];
-    cellIcon.image = [UIImage imageNamed:@"1"];
+    
+    
+    // UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
+    // cell.cellImage.image = (indexPath.row % 2 ? [UIImage imageNamed:@"1"] : [UIImage imageNamed:@"2"]);
+    ContactList *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
+    cell.cellImage.image = [UIImage imageNamed:activeConversation.thumbnailImage];
+    cell.cellNameLabel.text = activeConversation.name;
+    cell.backgroundColor = [UIColor whiteColor];
     
     return cell;
 }
@@ -94,5 +120,8 @@ static NSString * const reuseIdentifier = @"Cell";
 	
 }
 */
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
+    NSLog(@"You selected item %@ - %@",[indexPath description], @"-");
+}
 @end

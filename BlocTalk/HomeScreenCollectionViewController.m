@@ -9,7 +9,8 @@
 #import "HomeScreenCollectionViewController.h"
 #import "HomeScreenCollectionViewCell.h"
 #import "DataSource.h"
-#import "ContactList.h"
+#import "Contact.h"
+#import "ConversationViewController.h"
 
 @interface HomeScreenCollectionViewController ()
 
@@ -26,19 +27,19 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    ContactList *cell1 = [ContactList new];
+    Contact *cell1 = [Contact new];
     cell1.name = @"Jane D";
     cell1.thumbnailImage = @"1.jpg";
     
-    ContactList *cell2 = [ContactList new];
+    Contact *cell2 = [Contact new];
     cell2.name = @"Peter R";
     cell2.thumbnailImage = @"2.jpg";
     
-    ContactList *cell3 = [ContactList new];
+    Contact *cell3 = [Contact new];
     cell3.name = @"Mason P";
     cell3.thumbnailImage = @"3.jpg";
     
-    ContactList *cell4 = [ContactList new];
+    Contact *cell4 = [Contact new];
     cell4.name = @"John S";
     cell4.thumbnailImage = @"4.jpg";
     
@@ -46,20 +47,29 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+    self.navigationItem.rightBarButtonItem = editButton;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    // once we verify this works, we can look up the first selected cell and get the name from it here.
+    [(ConversationViewController*)[segue destinationViewController] setPersonName:@"testing123"];
 }
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -82,7 +92,7 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     // UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
     // cell.cellImage.image = (indexPath.row % 2 ? [UIImage imageNamed:@"1"] : [UIImage imageNamed:@"2"]);
-    ContactList *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
+    Contact *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
     cell.cellImage.image = [UIImage imageNamed:activeConversation.thumbnailImage];
     cell.cellNameLabel.text = activeConversation.name;
     cell.backgroundColor = [UIColor whiteColor];
@@ -123,5 +133,8 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 //    NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
     NSLog(@"You selected item %@ - %@",[indexPath description], @"-");
+    Contact *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
+    self.selectedPersonName = activeConversation.name;
+    
 }
 @end

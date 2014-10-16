@@ -11,5 +11,5 @@
 @interface HomeScreenCollectionViewController : UICollectionViewController
 
 @property (nonatomic, strong) NSMutableArray *icons;
-
+@property (nonatomic, strong) NSString *selectedPersonName;
 @end

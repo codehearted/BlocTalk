@@ -9,6 +9,7 @@
 #import "ConversationViewController.h"
 
 @interface ConversationViewController ()
+@property (strong, nonatomic) IBOutlet UITextField *textTestField;
 
 @end
 
@@ -17,6 +18,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.title = self.personName;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    UIBarButtonItem *archiveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:nil];
+    self.navigationItem.rightBarButtonItem = archiveButton;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ConversationViewController : UIViewController
-
+@property (strong, nonatomic) NSString *personName;
 @end

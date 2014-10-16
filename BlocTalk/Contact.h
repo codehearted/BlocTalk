@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ContactList : NSObject
+@interface Contact : NSObject
 
 @property (strong, nonatomic) NSString *thumbnailImage;
 @property (strong, nonatomic) NSString *name;

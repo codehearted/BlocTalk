@@ -188,10 +188,11 @@
 				TargetAttributes = {
 					0D21855719E5C1C3007F26DA = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = FD5BJ4YK4C;
+						DevelopmentTeam = 33U326FCC6;
 					};
 					0D21857019E5C1C3007F26DA = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = 33U326FCC6;
 						TestTargetID = 0D21855719E5C1C3007F26DA;
 					};
 				};

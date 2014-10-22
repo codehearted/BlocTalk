@@ -27,7 +27,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="181" height="189"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="36Y-ve-7PT">
+                                        <imageView tag="101" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="36Y-ve-7PT">
                                             <rect key="frame" x="0.0" y="0.0" width="181" height="169"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
@@ -37,30 +37,16 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnd-gj-I1e">
-                                            <rect key="frame" x="0.0" y="0.0" width="181" height="189"/>
-                                            <state key="normal" title=" ">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="x4h-sX-Q78" kind="show" id="3sx-yn-t2R"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstItem="Mnd-gj-I1e" firstAttribute="top" secondItem="6gt-uX-KRH" secondAttribute="topMargin" id="0PQ-7v-vNk"/>
-                                    <constraint firstItem="Mnd-gj-I1e" firstAttribute="leading" secondItem="6gt-uX-KRH" secondAttribute="leadingMargin" id="I0B-c3-hJ9"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="Mnd-gj-I1e" secondAttribute="bottom" id="clj-R3-x5s"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="Mnd-gj-I1e" secondAttribute="trailing" id="mu5-Bm-bFa"/>
-                                </constraints>
                                 <connections>
                                     <outlet property="cellImage" destination="36Y-ve-7PT" id="46f-2k-nY7"/>
                                     <outlet property="cellNameLabel" destination="vAL-vi-M0b" id="JOc-in-Cyi"/>
                                     <outletCollection property="gestureRecognizers" destination="1wb-J1-FSt" appends="YES" id="kqR-jp-PwD"/>
+                                    <segue destination="x4h-sX-Q78" kind="show" id="M6X-Ma-o3w"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

@@ -19,7 +19,7 @@
 @implementation HomeScreenCollectionViewController
 
 {
-    NSArray *activeConverstations;
+    NSArray *activeConverstations; 
 }
 
 static NSString * const reuseIdentifier = @"contactCollectionCell";
@@ -44,7 +44,8 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     cell4.thumbnailImage = @"4.jpg";
     
     activeConverstations = [NSArray arrayWithObjects:cell1, cell2, cell3, cell4, nil];
-    
+    self.clearsSelectionOnViewWillAppear = NO;
+    self.selectedPersonName = @"";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -68,7 +69,17 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     // Pass the selected object to the new view controller.
     
     // once we verify this works, we can look up the first selected cell and get the name from it here.
-    [(ConversationViewController*)[segue destinationViewController] setPersonName:@"testing123"];
+    NSIndexPath *path = [[self.collectionView indexPathsForSelectedItems] lastObject];
+    
+    
+    // This doesn't work because data source is not yet providing data, at least in this branch.
+    //    Contact *person = [[DataSource sharedInstance].contactList objectAtIndex:path.row];
+    
+    NSString *name = [(Contact *)activeConverstations[path.row] name];
+
+    NSLog(@"Going to path for cell %ld (%@)",(long)path.row,name);
+
+    [(ConversationViewController*)[segue destinationViewController] setPersonName:name];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -96,25 +107,24 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     cell.cellImage.image = [UIImage imageNamed:activeConversation.thumbnailImage];
     cell.cellNameLabel.text = activeConversation.name;
     cell.backgroundColor = [UIColor whiteColor];
+    // This is just for debug reference - not needed for production
+    cell.cellId = indexPath.row;
     
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
 
-/*
 // Uncomment this method to specify if the specified item should be highlighted during tracking
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
 	return YES;
 }
-*/
 
-/*
+
 // Uncomment this method to specify if the specified item should be selected
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
-*/
 
 /*
 // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
@@ -130,11 +140,13 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 	
 }
 */
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+ - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 //    NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
-    NSLog(@"You selected item %@ - %@",[indexPath description], @"-");
     Contact *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
     self.selectedPersonName = activeConversation.name;
+     NSLog(@"You selected item %@ - %@",[indexPath description], self.selectedPersonName);
     
 }
+
+
 @end

@@ -12,12 +12,15 @@
 
 @synthesize cellImage;
 @synthesize cellNameLabel;
+@synthesize cellId;
 
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+/*
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)eventsuper
 {
     NSLog(@"Got touches on %@!", cellNameLabel.text);
 //    NSLog(@"Got touches! These: \n%@",[touches description]);
-    
+    [super touchesBegan:touches withEvent:eventsuper];
 }
+ */
+
 @end

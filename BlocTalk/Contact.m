@@ -11,6 +11,6 @@
 @implementation Contact
 
 @synthesize thumbnailImage;
-@synthesize name;
+@synthesize firstName;
 
 @end

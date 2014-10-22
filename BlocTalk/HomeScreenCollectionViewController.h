@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeScreenCollectionViewController : UICollectionViewController
+@interface HomeScreenCollectionViewController : UICollectionViewController 
 
-@property (nonatomic, strong) NSMutableArray *icons;
 @property (nonatomic, strong) NSString *selectedPersonName;
+
 @end

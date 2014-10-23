@@ -11,6 +11,7 @@
 @interface DataSource : NSObject
 
 +(instancetype) sharedInstance;
-@property (nonatomic, strong, readonly) NSArray *contactList;
+
+@property (nonatomic, strong) NSArray *activeConverstations;
 
 @end

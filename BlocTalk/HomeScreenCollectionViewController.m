@@ -11,8 +11,9 @@
 #import "DataSource.h"
 #import "Contact.h"
 #import "ConversationViewController.h"
+@import AddressBook;
 
-@interface HomeScreenCollectionViewController ()
+@interface HomeScreenCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end
 
@@ -28,19 +29,19 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     [super viewDidLoad];
     
     Contact *cell1 = [Contact new];
-    cell1.name = @"Jane D";
+    cell1.firstName = @"Jane D";
     cell1.thumbnailImage = @"1.jpg";
     
     Contact *cell2 = [Contact new];
-    cell2.name = @"Peter R";
+    cell2.firstName = @"Peter R";
     cell2.thumbnailImage = @"2.jpg";
     
     Contact *cell3 = [Contact new];
-    cell3.name = @"Mason P";
+    cell3.firstName = @"Mason P";
     cell3.thumbnailImage = @"3.jpg";
     
     Contact *cell4 = [Contact new];
-    cell4.name = @"John S";
+    cell4.firstName = @"John S";
     cell4.thumbnailImage = @"4.jpg";
     
     activeConverstations = [NSArray arrayWithObjects:cell1, cell2, cell3, cell4, nil];
@@ -75,7 +76,7 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     // This doesn't work because data source is not yet providing data, at least in this branch.
     //    Contact *person = [[DataSource sharedInstance].contactList objectAtIndex:path.row];
     
-    NSString *name = [(Contact *)activeConverstations[path.row] name];
+    NSString *name = [(Contact *)activeConverstations[path.row] firstName];
 
     NSLog(@"Going to path for cell %ld (%@)",(long)path.row,name);
 
@@ -89,7 +90,7 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSInteger itemsCount = [DataSource sharedInstance].contactList.count;
+    NSInteger itemsCount = [DataSource sharedInstance].activeConverstations.count;
     itemsCount = 4;
     NSLog(@"Got %d items",(int)itemsCount);
     return itemsCount;
@@ -99,13 +100,11 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     HomeScreenCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    
-    
     // UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
     // cell.cellImage.image = (indexPath.row % 2 ? [UIImage imageNamed:@"1"] : [UIImage imageNamed:@"2"]);
-    Contact *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
+    Contact *activeConversation = [DataSource sharedInstance].activeConverstations[indexPath.row];
     cell.cellImage.image = [UIImage imageNamed:activeConversation.thumbnailImage];
-    cell.cellNameLabel.text = activeConversation.name;
+    cell.cellNameLabel.text = activeConversation.firstName;
     cell.backgroundColor = [UIColor whiteColor];
     // This is just for debug reference - not needed for production
     cell.cellId = indexPath.row;
@@ -140,13 +139,13 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 	
 }
 */
- - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 //    NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
     Contact *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
-    self.selectedPersonName = activeConversation.name;
+    self.selectedPersonName = activeConversation.firstName;
      NSLog(@"You selected item %@ - %@",[indexPath description], self.selectedPersonName);
     
 }
-
 
 @end

@@ -10,7 +10,6 @@
 
 @interface HomeScreenCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *icons;
 @property (nonatomic, strong) NSString *selectedPersonName;
 @property (nonatomic, strong) IBOutlet UICollectionView *collectionView;
 

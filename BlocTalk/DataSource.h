@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface DataSource : NSObject
+@interface DataSource : NSObject <UICollectionViewDataSource>
 
 +(instancetype) sharedInstance;
 

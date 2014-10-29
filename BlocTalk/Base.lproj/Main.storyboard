@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rrc-Qt-bne">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Home Screen Collection View Controller-->
@@ -46,7 +45,6 @@
                                 <connections>
                                     <outlet property="cellImage" destination="36Y-ve-7PT" id="46f-2k-nY7"/>
                                     <outlet property="cellNameLabel" destination="vAL-vi-M0b" id="JOc-in-Cyi"/>
-                                    <outletCollection property="gestureRecognizers" destination="1wb-J1-FSt" appends="YES" id="kqR-jp-PwD"/>
                                     <segue destination="x4h-sX-Q78" kind="show" id="M6X-Ma-o3w"/>
                                 </connections>
                             </collectionViewCell>
@@ -56,13 +54,25 @@
                             <outlet property="delegate" destination="V4z-VG-eYL" id="YPa-KF-hi3"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="fNq-7B-QSx"/>
+                    <navigationItem key="navigationItem" id="fNq-7B-QSx">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="WWi-Xq-vsj">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Orv-em-kxS">
+                                <rect key="frame" x="-23" y="-15" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Browse">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="browseForPeers:" destination="V4z-VG-eYL" eventType="touchUpInside" id="cSY-iL-eXa"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="PAv-sB-sNo" id="myC-Z1-4n3"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJq-GQ-MK2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="1wb-J1-FSt"/>
             </objects>
             <point key="canvasLocation" x="1911" y="99"/>
         </scene>
@@ -78,29 +88,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Conversation Here" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ch7-PG-Go7">
-                                <rect key="frame" x="106" y="319" width="143" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3lv-Ad-5yR">
-                                <rect key="frame" x="70" y="404" width="215" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Your message ... " borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3lv-Ad-5yR">
+                                <rect key="frame" x="24" y="502" width="280" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qVR-69-k4v">
+                                <rect key="frame" x="268" y="540" width="36" height="30"/>
+                                <state key="normal" title="Send">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendMessage:" destination="x4h-sX-Q78" eventType="touchUpInside" id="NS7-Gi-6J0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o9q-pa-5i8">
+                                <rect key="frame" x="24" y="540" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelMessage:" destination="x4h-sX-Q78" eventType="touchUpInside" id="uDZ-e5-gRC"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3og-5n-mKA">
+                                <rect key="frame" x="4" y="72" width="320" height="422"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="top" secondItem="ch7-PG-Go7" secondAttribute="bottom" constant="64" id="Kib-Pd-pI0"/>
-                            <constraint firstItem="ch7-PG-Go7" firstAttribute="centerX" secondItem="3lv-Ad-5yR" secondAttribute="centerX" id="Mdl-3t-WAY"/>
-                            <constraint firstItem="ch7-PG-Go7" firstAttribute="leading" secondItem="7Ck-uO-BcI" secondAttribute="leadingMargin" constant="100" id="Yzq-vf-DfQ"/>
-                            <constraint firstItem="ch7-PG-Go7" firstAttribute="top" secondItem="8uM-z7-tDW" secondAttribute="bottom" constant="255" id="gBz-J6-oCs"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ch7-PG-Go7" secondAttribute="trailing" constant="100" id="l6U-ZT-Vkt"/>
-                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="textTestField" destination="3lv-Ad-5yR" id="Ibs-oS-Itx"/>
+                        <outlet property="tvChat" destination="3og-5n-mKA" id="e7D-Kp-Be2"/>
+                        <outlet property="txtMessage" destination="3lv-Ad-5yR" id="NoP-X9-gDB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R6W-x4-rdS" userLabel="First Responder" sceneMemberID="firstResponder"/>

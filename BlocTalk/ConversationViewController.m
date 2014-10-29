@@ -9,11 +9,17 @@
 #import "ConversationViewController.h"
 #import "DataSource.h"
 #import "Contact.h"
+#import "AppDelegate.h"
 @import AddressBook;
 @import MultipeerConnectivity;
 
 @interface ConversationViewController ()
+
 @property (strong, nonatomic) IBOutlet UITextField *textTestField;
+@property (strong, nonatomic) AppDelegate *appDelegate;
+
+-(void)sendMyMessage;
+-(void)didReceiveDataWithNotification:(NSNotification *)notification;
 
 @end
 
@@ -23,6 +29,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = self.personName;
+    
+    _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    _txtMessage.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -36,6 +51,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Adding Contact
 
 -(IBAction)addContactButton:(id)sender {
     
@@ -81,24 +98,56 @@
     
 }
 
-#pragma mark - MCSessionDelegate
+#pragma mark - UITextField Delegate method implementation
 
--(void)session:(MCSession *)session
-didReceiveData: (NSData *)data
-      fromPeer:(MCPeerID *)peerID {
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self sendMyMessage];
+    return YES;
+}
+
+#pragma mark - IBAction method implementation
+
+-(IBAction)sendMessage:(id)sender {
+    [self sendMyMessage];
+}
+
+-(IBAction)cancelMessage:(id)sender {
+    [_txtMessage resignFirstResponder];
+}
+
+#pragma mark - Private method implementation
+
+-(void)sendMyMessage {
+    NSData *dataToSend = [_txtMessage.text dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
+    NSError *error;
     
-    NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", message);
+    [_appDelegate.mcManager.session sendData:dataToSend
+                                     toPeers:allPeers
+                                    withMode:MCSessionSendDataReliable
+                                       error:&error];
+    
+    if (error) {
+        NSLog(@"Send Error:%@", [error localizedDescription]);
+    }
+    
+    [_tvChat setText:[_tvChat.text stringByAppendingString:[NSString stringWithFormat:@"I wrote:\n%@\n\n", _txtMessage.text]]];
+    
+    NSLog(@"Message sent: %@", _txtMessage.text);
+    [_txtMessage setText:@""];
+    [_txtMessage resignFirstResponder];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)didReceiveDataWithNotification:(NSNotification *)notification {
+    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
+    NSString *peerDisplayName = peerID.displayName;
+    
+    NSData *receivedData = [[notification userInfo] objectForKey:@"state"];
+    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"Message received: %@", receivedText);
+    [_tvChat performSelectorOnMainThread:@selector(setText:)
+                              withObject:[_tvChat.text stringByAppendingString:[NSString stringWithFormat:@"%@ wrote\n%@\n\n", peerDisplayName, receivedText]]
+                           waitUntilDone:NO];
 }
-*/
 
 @end

@@ -18,6 +18,7 @@
 		0D49313B19E7165E00396C18 /* HomeScreenCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */; };
 		0D9C43C919EEE36B00089848 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C43C819EEE36B00089848 /* Contact.m */; };
 		0D9C43CD19EEF89500089848 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C43CB19EEF89500089848 /* ConversationViewController.m */; };
+		0DB814BE19FEA8AA00CCC861 /* MCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB814BD19FEA8AA00CCC861 /* MCManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,8 @@
 		0D9C43C819EEE36B00089848 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0D9C43CA19EEF89500089848 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		0D9C43CB19EEF89500089848 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
+		0DB814BC19FEA8AA00CCC861 /* MCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCManager.h; sourceTree = "<group>"; };
+		0DB814BD19FEA8AA00CCC861 /* MCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,8 @@
 				0D49313A19E7165E00396C18 /* HomeScreenCollectionViewCell.m */,
 				0D21858119E5C56E007F26DA /* HomeScreenCollectionViewController.h */,
 				0D21858219E5C56E007F26DA /* HomeScreenCollectionViewController.m */,
+				0DB814BC19FEA8AA00CCC861 /* MCManager.h */,
+				0DB814BD19FEA8AA00CCC861 /* MCManager.m */,
 				0D21856819E5C1C3007F26DA /* Images.xcassets */,
 				0D21856A19E5C1C3007F26DA /* LaunchScreen.xib */,
 				0D21856519E5C1C3007F26DA /* Main.storyboard */,
@@ -188,11 +193,11 @@
 				TargetAttributes = {
 					0D21855719E5C1C3007F26DA = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 33U326FCC6;
+						DevelopmentTeam = FD5BJ4YK4C;
 					};
 					0D21857019E5C1C3007F26DA = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 33U326FCC6;
+						DevelopmentTeam = FD5BJ4YK4C;
 						TestTargetID = 0D21855719E5C1C3007F26DA;
 					};
 				};
@@ -242,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D9C43C919EEE36B00089848 /* Contact.m in Sources */,
+				0DB814BE19FEA8AA00CCC861 /* MCManager.m in Sources */,
 				0D49313B19E7165E00396C18 /* HomeScreenCollectionViewCell.m in Sources */,
 				0D9C43CD19EEF89500089848 /* ConversationViewController.m in Sources */,
 				0D49313819E6EB2200396C18 /* DataSource.m in Sources */,
@@ -373,6 +379,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BlocTalk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -384,6 +391,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BlocTalk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

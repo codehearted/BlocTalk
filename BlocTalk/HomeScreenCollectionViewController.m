@@ -11,42 +11,33 @@
 #import "DataSource.h"
 #import "Contact.h"
 #import "ConversationViewController.h"
+#import "MCManager.h"
+
 @import AddressBook;
 
 @interface HomeScreenCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
+-(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+
 @end
 
 @implementation HomeScreenCollectionViewController
-
-{
-    NSArray *activeConverstations; 
-}
 
 static NSString * const reuseIdentifier = @"contactCollectionCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    Contact *cell1 = [Contact new];
-    cell1.firstName = @"Jane D";
-    cell1.thumbnailImage = @"1.jpg";
-    
-    Contact *cell2 = [Contact new];
-    cell2.firstName = @"Peter R";
-    cell2.thumbnailImage = @"2.jpg";
-    
-    Contact *cell3 = [Contact new];
-    cell3.firstName = @"Mason P";
-    cell3.thumbnailImage = @"3.jpg";
-    
-    Contact *cell4 = [Contact new];
-    cell4.firstName = @"John S";
-    cell4.thumbnailImage = @"4.jpg";
-    
-    activeConverstations = [NSArray arrayWithObjects:cell1, cell2, cell3, cell4, nil];
+    self.collectionView.dataSource = [DataSource sharedInstance];
     self.clearsSelectionOnViewWillAppear = NO;
     self.selectedPersonName = @"";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidChangeStateWithNotification:)
+                                                 name:@"MCDidChangeStateWithNotification"
+                                               object:nil];
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -69,18 +60,27 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    // once we verify this works, we can look up the first selected cell and get the name from it here.
     NSIndexPath *path = [[self.collectionView indexPathsForSelectedItems] lastObject];
     
     
     // This doesn't work because data source is not yet providing data, at least in this branch.
-    //    Contact *person = [[DataSource sharedInstance].contactList objectAtIndex:path.row];
+    // Contact *person = [[DataSource sharedInstance].contactList objectAtIndex:path.row];
     
-    NSString *name = [(Contact *)activeConverstations[path.row] firstName];
+    NSString *name = [(Contact *)[DataSource sharedInstance].activeConverstations[path.row] firstName];
 
     NSLog(@"Going to path for cell %ld (%@)",(long)path.row,name);
 
     [(ConversationViewController*)[segue destinationViewController] setPersonName:name];
+}
+
+#pragma mark Multipeer
+
+- (IBAction)browseForPeers:(id)sender {
+    MCManager *multipeerMgr = [MCManager sharedInstance];
+    [multipeerMgr browseForDevices];
+    [self presentViewController:multipeerMgr.browser
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -141,11 +141,19 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 */
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
-    Contact *activeConversation = [activeConverstations objectAtIndex:indexPath.row];
+    // NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
+    Contact *activeConversation = [[DataSource sharedInstance].activeConverstations objectAtIndex:indexPath.row];
     self.selectedPersonName = activeConversation.firstName;
-     NSLog(@"You selected item %@ - %@",[indexPath description], self.selectedPersonName);
+    NSLog(@"You selected item %@ - %@",[indexPath description], self.selectedPersonName);
+    
+}
+
+#pragma mark - Private method implementation
+
+-(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
     
 }
 
 @end
+
+

@@ -20,7 +20,7 @@
     // Override point for customization after application launch.
     
     self.mcManager = [MCManager sharedInstance];
-    NSString *name = [NSString stringWithFormat:@"someone%d",(arc4random()%1000)];
+    NSString *name = [[UIDevice currentDevice] name];
     [self.mcManager setupPeerAndSessionWithDisplayName:name];
     return YES;
 }

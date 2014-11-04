@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 @interface Contact : NSObject
 
+@property (strong, nonatomic) MCPeerID *peerID;
 @property (strong, nonatomic) NSString *thumbnailImage;
 @property (strong, nonatomic) NSString *firstName;
 @property (strong, nonatomic) NSString *lastName;

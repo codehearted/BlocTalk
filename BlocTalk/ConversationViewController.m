@@ -81,7 +81,7 @@
     ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, nil);
     ABRecordRef contact = ABPersonCreate();
     NSInteger selectedRow = 0; // placeholder, should be filled in with selected row of collectionView
-    Contact *person = (Contact*)[DataSource sharedInstance].activeConverstations[selectedRow];
+    Contact *person = (Contact*)[MCManager sharedInstance].activePeers[selectedRow];
     ABRecordSetValue(contact, kABPersonFirstNameProperty, (__bridge CFTypeRef)(person.firstName), nil);
     ABRecordSetValue(contact, kABPersonLastNameProperty, (__bridge CFTypeRef)(person.lastName), nil);
 //    ABRecordSetValue(contact, kABPersonLastNameProperty, (__bridge CFStringRef)[DataSource sharedInstance].activeConverstations[selectedRow].lastName, nil);
@@ -142,8 +142,8 @@
     MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
     NSString *peerDisplayName = peerID.displayName;
     
-    NSData *receivedData = [[notification userInfo] objectForKey:@"state"];
-    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+ //   NSData *receivedData = [[notification userInfo] objectForKey:@"state"];
+    NSString *receivedText = [notification.userInfo objectForKey:@"textData"];
     NSLog(@"Message received: %@", receivedText);
     [_tvChat performSelectorOnMainThread:@selector(setText:)
                               withObject:[_tvChat.text stringByAppendingString:[NSString stringWithFormat:@"%@ wrote\n%@\n\n", peerDisplayName, receivedText]]

@@ -17,7 +17,7 @@
 
 @interface HomeScreenCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
--(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -37,6 +37,15 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
                                                  name:@"MCDidChangeStateWithNotification"
                                                object:nil];
     
+    _arrConnectedPeers = [[NSMutableArray alloc] init];
+    
+    // Initialize refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor blueColor];
+    self.refreshControl.tintColor = [UIColor whiteColor];
+    [self.refreshControl addTarget: self
+                            action: @selector(reloadData)
+                  forControlEvents:UIControlEventValueChanged];
     
 }
 
@@ -52,6 +61,24 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Pull-to-Refresh
+
+-(void)reloadData {
+    [self.collectionView reloadData];
+    
+    if (self.refreshControl) {
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMM d, h:mm a"];
+        NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                    forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
+        self.refreshControl.attributedTitle = attributedTitle;
+        
+        [self.refreshControl endRefreshing];
+    }
+}
 
 #pragma mark - Navigation
 
@@ -62,12 +89,9 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     NSIndexPath *path = [[self.collectionView indexPathsForSelectedItems] lastObject];
     
-    
-    // This doesn't work because data source is not yet providing data, at least in this branch.
-    // Contact *person = [[DataSource sharedInstance].contactList objectAtIndex:path.row];
-    
-    NSString *name = [(Contact *)[DataSource sharedInstance].activeConverstations[path.row] firstName];
-
+    Contact *activePeer = [MCManager sharedInstance].activePeers[path.row];
+    NSString *name = [activePeer firstName];
+ 
     NSLog(@"Going to path for cell %ld (%@)",(long)path.row,name);
 
     [(ConversationViewController*)[segue destinationViewController] setPersonName:name];
@@ -75,15 +99,43 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 
 #pragma mark Multipeer
 
+-(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
+    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
+    NSString *peerDisplayName = peerID.displayName;
+    MCSessionState state = [[[notification userInfo] objectForKey:@"state"] intValue];
+    
+    NSLog(@"peer %@:%@ (%d)",peerID,peerDisplayName,state);
+    if (state != MCSessionStateConnecting) {
+        if (state == MCSessionStateConnected) {
+            [_arrConnectedPeers addObject:peerDisplayName];
+        }
+        else if (state == MCSessionStateNotConnected){
+            if ([_arrConnectedPeers count] > 0) {
+                NSUInteger indexOfPeer = [_arrConnectedPeers indexOfObject: peerDisplayName];
+                [_arrConnectedPeers removeObjectAtIndex:indexOfPeer];
+            }
+        }
+        
+        [self.collectionView reloadData];
+    }
+}
+
+- (IBAction)refresh:(id)sender {
+    [self.collectionView reloadData];
+    NSLog(@"Refreshed (%d found)",[self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:0]);
+}
+
+/*
 - (IBAction)browseForPeers:(id)sender {
     MCManager *multipeerMgr = [MCManager sharedInstance];
     [multipeerMgr browseForDevices];
+
     [self presentViewController:multipeerMgr.browser
                        animated:YES
                      completion:nil];
 }
 
-#pragma mark <UICollectionViewDataSource>
+ #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -100,6 +152,12 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     HomeScreenCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
+    Contact *activePeers = [MCManager sharedInstance].activePeers[indexPath.row];
+    cell.cellNameLabel.text = activePeers.firstName;
+    cell.backgroundColor = [UIColor whiteColor];
+    
+    
+    
     // UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
     // cell.cellImage.image = (indexPath.row % 2 ? [UIImage imageNamed:@"1"] : [UIImage imageNamed:@"2"]);
     Contact *activeConversation = [DataSource sharedInstance].activeConverstations[indexPath.row];
@@ -111,6 +169,7 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     return cell;
 }
+*/
 
 #pragma mark <UICollectionViewDelegate>
 
@@ -142,18 +201,10 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
-    Contact *activeConversation = [[DataSource sharedInstance].activeConverstations objectAtIndex:indexPath.row];
-    self.selectedPersonName = activeConversation.firstName;
+    Contact *activePeers = [[MCManager sharedInstance].activePeers objectAtIndex:indexPath.row];
+    self.selectedPersonName = activePeers.firstName;
     NSLog(@"You selected item %@ - %@",[indexPath description], self.selectedPersonName);
     
 }
 
-#pragma mark - Private method implementation
-
--(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
-    
-}
-
 @end
-
-

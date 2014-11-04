@@ -7,6 +7,9 @@
 //
 
 #import "MCManager.h"
+#import "Contact.h"
+
+@import MultipeerConnectivity;
 
 @implementation MCManager
 
@@ -40,26 +43,20 @@
     
     _session = [[MCSession alloc] initWithPeer:_peerID];
     _session.delegate = self;
-    [self advertiseSelf:YES];
+    
+    _advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:_peerID discoveryInfo:nil serviceType:@"chat-files"];
+    _advertiser.delegate = self;
+    [_advertiser startAdvertisingPeer];
+    self.advertiser = _advertiser; // Used to keep strong reference
+    
+    _browser = [[MCNearbyServiceBrowser alloc] initWithPeer:_peerID serviceType:@"chat-files"];
+    _browser.delegate = self;
+    [_browser startBrowsingForPeers];
 }
 
 
 -(void)setupMCBrowser{
-    _browser = [[MCBrowserViewController alloc] initWithServiceType:@"chat-files" session:_session];
-}
-
-
--(void)advertiseSelf:(BOOL)shouldAdvertise{
-    if (shouldAdvertise) {
-        _advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@"chat-files"
-                                                           discoveryInfo:nil
-                                                                 session:_session];
-        [_advertiser start];
-    }
-    else{
-        [_advertiser stop];
-        _advertiser = nil;
-    }
+    
 }
 
 -(void)browseForDevices {
@@ -81,9 +78,11 @@
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
     NSDictionary *dict = @{@"data": data,
-                           @"peerID": peerID
+                           @"peerID": peerID,
+                           @"textData": [[NSString alloc] initWithData:data
+                                                              encoding:NSUTF8StringEncoding]
                            };
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidReceiveDataNotification"
                                                         object:nil
                                                       userInfo:dict];
@@ -101,7 +100,13 @@
     
 }
 
-#pragma mark - MCBrowserViewControllerDelegate method implementation
+-(void)session:(MCSession *)session didReceiveCertificate:(NSArray *)certificate fromPeer:(MCPeerID *)peerID certificateHandler:(void (^)(BOOL))certificateHandler {
+    
+    certificateHandler(YES);
+}
+
+/*
+ #pragma mark - MCBrowserViewControllerDelegate method implementation
 
 -(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController{
     [self.browser dismissViewControllerAnimated:YES completion:nil];
@@ -110,6 +115,34 @@
 
 -(void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController{
     [self.browser dismissViewControllerAnimated:YES completion:nil];
+}
+*/
+
+#pragma mark - MCNearbyServiceBrowserDelegate
+
+-(void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info {
+    
+    [_browser invitePeer:peerID toSession:_session withContext:nil timeout:30.0];
+    Contact *newPeer = [[Contact alloc] init];
+    newPeer.peerID = peerID;
+    newPeer.firstName = @"Fred";
+    self.activePeers = [NSArray arrayWithObject:newPeer];
+    
+    [_browser stopBrowsingForPeers];
+}
+
+-(void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID {
+    
+}
+
+#pragma mark - MCNearbyServiceAdvertiserDelegate
+
+-(void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler {
+    
+    _session = [[MCSession alloc] initWithPeer:_peerID];
+    _session.delegate = self;
+    
+    invitationHandler(YES, _session);
 }
 
 @end

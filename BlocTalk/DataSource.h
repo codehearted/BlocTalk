@@ -13,6 +13,6 @@
 
 +(instancetype) sharedInstance;
 
-@property (nonatomic, strong) NSArray *activeConverstations;
+// @property (nonatomic, strong) NSArray *activeConverstations;
 
 @end

@@ -10,6 +10,7 @@
 #import "DataSource.h"
 #import "Contact.h"
 #import "AppDelegate.h"
+#import "ConverstationView.h"
 @import AddressBook;
 @import MultipeerConnectivity;
 
@@ -46,6 +47,21 @@
     UIBarButtonItem *archiveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:nil];
     self.navigationItem.rightBarButtonItem = archiveButton;
 }
+
+/*
+-(void)loadView {
+    CGRect frame = [UIScreen mainScreen].bounds;
+    UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
+    
+    CGRect textFieldRect = CGRectMake(40, 70, 240, 30);
+    UITextField *textField = [[UITextField alloc] initWithFrame:textFieldRect];
+    
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.placeholder = @"Your message ...";
+    
+    [backgroundView addSubview:textField];
+}
+ */
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -101,6 +117,7 @@
 #pragma mark - UITextField Delegate method implementation
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
     [self sendMyMessage];
     return YES;
 }
@@ -119,11 +136,11 @@
 
 -(void)sendMyMessage {
     NSData *dataToSend = [_txtMessage.text dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
+    NSArray *currentPeers = [[MCManager sharedInstance].session connectedPeers];
     NSError *error;
     
     [_appDelegate.mcManager.session sendData:dataToSend
-                                     toPeers:allPeers
+                                     toPeers:currentPeers
                                     withMode:MCSessionSendDataReliable
                                        error:&error];
     

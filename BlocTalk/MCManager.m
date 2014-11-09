@@ -54,16 +54,6 @@
     [_browser startBrowsingForPeers];
 }
 
-
--(void)setupMCBrowser{
-    
-}
-
--(void)browseForDevices {
-    [self setupMCBrowser];
-    [[self browser] setDelegate:self];
-}
-
 #pragma mark - MCSession Delegate method implementation
 
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {

@@ -17,7 +17,6 @@
 
 @interface HomeScreenCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -39,45 +38,22 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     _arrConnectedPeers = [[NSMutableArray alloc] init];
     
-    // Initialize refresh control
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.backgroundColor = [UIColor blueColor];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [self.refreshControl addTarget: self
-                            action: @selector(reloadData)
-                  forControlEvents:UIControlEventValueChanged];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
-    self.navigationItem.rightBarButtonItem = editButton;
+    // Add edit bar to handle conversations (delete, archive, mulitselect)
+    // UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+    // self.navigationItem.rightBarButtonItem = editButton;
+    
+    // UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh" style:UIBarButtonItemStylePlain target:@selector(refresh:) action:nil];
+    // self.navigationItem.leftBarButtonItem = refreshButton;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Pull-to-Refresh
-
--(void)reloadData {
-    [self.collectionView reloadData];
-    
-    if (self.refreshControl) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MMM d, h:mm a"];
-        NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                    forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
-        self.refreshControl.attributedTitle = attributedTitle;
-        
-        [self.refreshControl endRefreshing];
-    }
 }
 
 #pragma mark - Navigation
@@ -104,7 +80,7 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     NSString *peerDisplayName = peerID.displayName;
     MCSessionState state = [[[notification userInfo] objectForKey:@"state"] intValue];
     
-    NSLog(@"peer %@:%@ (%d)",peerID,peerDisplayName,state);
+    NSLog(@"peer %@:%@ (%ld)",peerID,peerDisplayName,state);
     if (state != MCSessionStateConnecting) {
         if (state == MCSessionStateConnected) {
             [_arrConnectedPeers addObject:peerDisplayName];
@@ -133,41 +109,6 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     [self presentViewController:multipeerMgr.browser
                        animated:YES
                      completion:nil];
-}
-
- #pragma mark <UICollectionViewDataSource>
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSInteger itemsCount = [DataSource sharedInstance].activeConverstations.count;
-    itemsCount = 4;
-    NSLog(@"Got %d items",(int)itemsCount);
-    return itemsCount;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    HomeScreenCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    Contact *activePeers = [MCManager sharedInstance].activePeers[indexPath.row];
-    cell.cellNameLabel.text = activePeers.firstName;
-    cell.backgroundColor = [UIColor whiteColor];
-    
-    
-    
-    // UIImageView *cellIcon = (UIImageView*)[cell viewWithTag:101];
-    // cell.cellImage.image = (indexPath.row % 2 ? [UIImage imageNamed:@"1"] : [UIImage imageNamed:@"2"]);
-    Contact *activeConversation = [DataSource sharedInstance].activeConverstations[indexPath.row];
-    cell.cellImage.image = [UIImage imageNamed:activeConversation.thumbnailImage];
-    cell.cellNameLabel.text = activeConversation.firstName;
-    cell.backgroundColor = [UIColor whiteColor];
-    // This is just for debug reference - not needed for production
-    cell.cellId = indexPath.row;
-    
-    return cell;
 }
 */
 
@@ -200,7 +141,6 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
 */
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // NSObject *itemData = [[collectionView dataSource] getDataForPath:indexPath];
     Contact *activePeers = [[MCManager sharedInstance].activePeers objectAtIndex:indexPath.row];
     self.selectedPersonName = activePeers.firstName;
     NSLog(@"You selected item %@ - %@",[indexPath description], self.selectedPersonName);

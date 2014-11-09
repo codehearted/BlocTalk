@@ -21,7 +21,5 @@
 +(instancetype) sharedInstance;
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName;
--(void)setupMCBrowser;
--(void)browseForDevices;
 
 @end

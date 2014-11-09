@@ -11,6 +11,7 @@
 #import "HomeScreenCollectionViewCell.h"
 #import "MCManager.h"
 #import "AppDelegate.h"
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 @interface DataSource ()
 
@@ -84,9 +85,11 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     HomeScreenCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
+    NSString *peerID = [MCManager sharedInstance].peerID.displayName;
+    
     // MCManager *activePeers = [MCManager sharedInstance].activePeers[indexPath.row];
     cell.cellImage.image = [UIImage imageNamed:@"1.jpg"];
-    cell.cellNameLabel.text = [[UIDevice currentDevice] name];
+    cell.cellNameLabel.text = peerID;
     cell.backgroundColor = [UIColor whiteColor];
     // This is just for debug reference - not needed for production
     cell.cellId = indexPath.row;

@@ -18,8 +18,13 @@
 
 @property (nonatomic, strong) NSArray *activePeers;
 
+@property (nonatomic, strong) NSMutableDictionary *historyByPeer;
+
+
 +(instancetype) sharedInstance;
 
 -(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName;
+-(void)refreshPeers;
+-(BOOL)sendMessage:(NSString *)message;
 
 @end

@@ -11,15 +11,16 @@
 #import "Contact.h"
 #import "AppDelegate.h"
 #import "ConverstationView.h"
+#import "MCManager.h"
+
 @import AddressBook;
 @import MultipeerConnectivity;
 
 @interface ConversationViewController ()
 
-@property (strong, nonatomic) IBOutlet UITextField *textTestField;
 @property (strong, nonatomic) AppDelegate *appDelegate;
 
--(void)sendMyMessage;
+
 -(void)didReceiveDataWithNotification:(NSNotification *)notification;
 
 @end
@@ -29,6 +30,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *txtMessage = [defaults objectForKey:@"txtMessage"];
+    NSString *tvChat = [defaults objectForKey:@"tvChat"];
+    
+    _txtMessage.text = txtMessage;
+    _tvChat.text = tvChat;
+    
     self.title = self.personName;
     
     _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -41,11 +50,31 @@
     
 }
 
+/*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     UIBarButtonItem *archiveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:nil];
     self.navigationItem.rightBarButtonItem = archiveButton;
+}
+ */
+
+-(void)viewWillDisappear:(BOOL)animated {
+    
+    [self.view endEditing:YES];
+    
+    [self saveConversationStateToDefaults];
+    [super viewWillDisappear:animated];
+    
+}
+
+-(void)saveConversationStateToDefaults {
+    NSString *txtMessage = [self.txtMessage text];
+    NSString *tvChat = [self.tvChat text];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:txtMessage forKey:@"txtMessage"];
+    [defaults setObject:tvChat forKey:@"tvChat"];
 }
 
 /*
@@ -68,6 +97,70 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITextField Delegate method implementation
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [self sendMyMessage];
+    return YES;
+}
+
+#pragma mark - IBAction method implementation
+
+-(IBAction)sendMessage:(id)sender {
+    
+    [self sendMyMessage];
+}
+
+-(IBAction)cancelMessage:(id)sender {
+    [_txtMessage resignFirstResponder];
+}
+
+#pragma mark - Private method implementation
+
+-(void)sendMyMessage {
+    NSString *message = self.txtMessage.text;
+    
+    if ([[MCManager sharedInstance] sendMessage:message]) {
+        
+        [_tvChat setText:[_tvChat.text stringByAppendingString:[NSString stringWithFormat:@"I wrote:\n%@\n\n", message]]];
+        
+        NSLog(@"Message sent: %@", _txtMessage.text);
+        [_txtMessage setText:@""];
+        [_txtMessage resignFirstResponder];
+    } else {
+        // something went wrong
+        NSLog(@"Message failed to send: %@", _txtMessage.text);
+
+    }
+    
+    [self saveConversationStateToDefaults];
+    
+}
+
+-(void)didReceiveDataWithNotification:(NSNotification *)notification {
+    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
+    NSString *peerDisplayName = peerID.displayName;
+    
+    NSString *receivedText = [notification.userInfo objectForKey:@"textData"];
+    NSLog(@"Message received: %@", receivedText);
+    /*
+    [_tvChat performSelectorOnMainThread:@selector(setText:)
+                              withObject:[_tvChat.text stringByAppendingString:[NSString stringWithFormat:@"%@ wrote\n%@\n\n", peerDisplayName, receivedText]]
+                           waitUntilDone:NO];
+     /*/
+    NSString *convo = [MCManager sharedInstance].historyByPeer[peerDisplayName];
+    [_tvChat performSelectorOnMainThread:@selector(setText:)
+                              withObject:convo
+                           waitUntilDone:NO];
+    
+    [self performSelectorOnMainThread:@selector(saveConversationStateToDefaults)
+                           withObject:nil
+                        waitUntilDone:NO];
+    
+}
+
+/*
 #pragma mark - Adding Contact
 
 -(IBAction)addContactButton:(id)sender {
@@ -100,71 +193,19 @@
     Contact *person = (Contact*)[MCManager sharedInstance].activePeers[selectedRow];
     ABRecordSetValue(contact, kABPersonFirstNameProperty, (__bridge CFTypeRef)(person.firstName), nil);
     ABRecordSetValue(contact, kABPersonLastNameProperty, (__bridge CFTypeRef)(person.lastName), nil);
-//    ABRecordSetValue(contact, kABPersonLastNameProperty, (__bridge CFStringRef)[DataSource sharedInstance].activeConverstations[selectedRow].lastName, nil);
-    /*
-    ABMutableMultiValueRef phoneNumbers = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-    ABMultiValueAddValueAndLabel(phoneNumbers(__bridge CFStringRef)contactPhoneNumber, kABPersonPhoneMainLabel, NULL)
-    
-    ABRecordSetValue(contact, kABPersonPhoneProperty, phoneNumbers, nil);
-    
-    ABPersonSetImageData(contact, (__bridge CFDataRef)Contact.thumbnailImage, nil);
-    */
+    //    ABRecordSetValue(contact, kABPersonLastNameProperty, (__bridge CFStringRef)[DataSource sharedInstance].activeConverstations[selectedRow].lastName, nil);
+   
+     ABMutableMultiValueRef phoneNumbers = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+     ABMultiValueAddValueAndLabel(phoneNumbers(__bridge CFStringRef)contactPhoneNumber, kABPersonPhoneMainLabel, NULL)
+     
+     ABRecordSetValue(contact, kABPersonPhoneProperty, phoneNumbers, nil);
+     
+     ABPersonSetImageData(contact, (__bridge CFDataRef)Contact.thumbnailImage, nil);
+ 
     ABAddressBookAddRecord(addressBookRef, contact, nil);
     ABAddressBookSave(addressBookRef, nil);
     
 }
-
-#pragma mark - UITextField Delegate method implementation
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    [self sendMyMessage];
-    return YES;
-}
-
-#pragma mark - IBAction method implementation
-
--(IBAction)sendMessage:(id)sender {
-    [self sendMyMessage];
-}
-
--(IBAction)cancelMessage:(id)sender {
-    [_txtMessage resignFirstResponder];
-}
-
-#pragma mark - Private method implementation
-
--(void)sendMyMessage {
-    NSData *dataToSend = [_txtMessage.text dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray *currentPeers = [[MCManager sharedInstance].session connectedPeers];
-    NSError *error;
-    
-    [_appDelegate.mcManager.session sendData:dataToSend
-                                     toPeers:currentPeers
-                                    withMode:MCSessionSendDataReliable
-                                       error:&error];
-    
-    if (error) {
-        NSLog(@"Send Error:%@", [error localizedDescription]);
-    }
-    
-    [_tvChat setText:[_tvChat.text stringByAppendingString:[NSString stringWithFormat:@"I wrote:\n%@\n\n", _txtMessage.text]]];
-    
-    NSLog(@"Message sent: %@", _txtMessage.text);
-    [_txtMessage setText:@""];
-    [_txtMessage resignFirstResponder];
-}
-
--(void)didReceiveDataWithNotification:(NSNotification *)notification {
-    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
-    NSString *peerDisplayName = peerID.displayName;
-    
- //   NSData *receivedData = [[notification userInfo] objectForKey:@"state"];
-    NSString *receivedText = [notification.userInfo objectForKey:@"textData"];
-    NSLog(@"Message received: %@", receivedText);
-    [_tvChat performSelectorOnMainThread:@selector(setText:)
-                              withObject:[_tvChat.text stringByAppendingString:[NSString stringWithFormat:@"%@ wrote\n%@\n\n", peerDisplayName, receivedText]]
-                           waitUntilDone:NO];
-}
+*/
 
 @end

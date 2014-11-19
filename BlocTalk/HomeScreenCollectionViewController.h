@@ -12,9 +12,11 @@
 
 @property (nonatomic, strong) NSString *selectedPersonName;
 @property (nonatomic, strong) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, strong) IBOutlet UITextField *usernameView;
 @property (nonatomic, strong) NSMutableArray *arrConnectedPeers;
 
 -(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+-(IBAction)usernameClicked:(id)sender;
 
 
 @end

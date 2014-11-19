@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rrc-Qt-bne">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rrc-Qt-bne">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -22,7 +22,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="contactCollectionCell" id="6gt-uX-KRH" customClass="HomeScreenCollectionViewCell">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" reuseIdentifier="contactCollectionCell" id="6gt-uX-KRH" customClass="HomeScreenCollectionViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -57,6 +57,11 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="fNq-7B-QSx">
+                        <barButtonItem key="leftBarButtonItem" title="Username" id="9ae-wq-pte">
+                            <connections>
+                                <action selector="usernameClicked:" destination="V4z-VG-eYL" id="Yn6-pD-pXc"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="WWi-Xq-vsj">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Orv-em-kxS">
                                 <rect key="frame" x="-23" y="-15" width="133" height="30"/>
@@ -87,20 +92,11 @@
                         <viewControllerLayoutGuide type="bottom" id="twD-Wf-et5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7Ck-uO-BcI">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qVR-69-k4v">
-                                <rect key="frame" x="268" y="540" width="36" height="30"/>
-                                <state key="normal" title="Send">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="sendMessage:" destination="x4h-sX-Q78" eventType="touchUpInside" id="NS7-Gi-6J0"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o9q-pa-5i8">
-                                <rect key="frame" x="24" y="540" width="48" height="30"/>
+                                <rect key="frame" x="20" y="518" width="48" height="30"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -109,35 +105,47 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3og-5n-mKA">
-                                <rect key="frame" x="4" y="72" width="320" height="422"/>
+                                <rect key="frame" x="16" y="79" width="288" height="392"/>
                                 <color key="backgroundColor" red="0.40000000596046448" green="1" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your message ... " minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3lv-Ad-5yR">
-                                <rect key="frame" x="24" y="502" width="280" height="30"/>
+                                <rect key="frame" x="20" y="479" width="280" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="3lv-Ad-5yR" secondAttribute="height" multiplier="28:3" id="MZQ-mV-JWH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qVR-69-k4v">
+                                <rect key="frame" x="264" y="518" width="36" height="30"/>
+                                <state key="normal" title="Send">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendMessage:" destination="x4h-sX-Q78" eventType="touchUpInside" id="NS7-Gi-6J0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="1" green="0.21371606701901869" blue="0.27705961309936367" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="top" secondItem="3og-5n-mKA" secondAttribute="bottom" constant="8" symbolic="YES" id="265-hJ-QqF"/>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="leading" secondItem="o9q-pa-5i8" secondAttribute="leading" id="2Zj-Jj-Fza"/>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="top" secondItem="7Ck-uO-BcI" secondAttribute="topMargin" constant="502" id="8V6-NQ-Hle"/>
-                            <constraint firstItem="3og-5n-mKA" firstAttribute="leading" secondItem="7Ck-uO-BcI" secondAttribute="leadingMargin" constant="-12" id="Ann-TN-bQH"/>
-                            <constraint firstItem="o9q-pa-5i8" firstAttribute="top" secondItem="3lv-Ad-5yR" secondAttribute="bottom" constant="8" symbolic="YES" id="Az5-BJ-gKg"/>
-                            <constraint firstItem="3og-5n-mKA" firstAttribute="top" secondItem="8uM-z7-tDW" secondAttribute="bottom" constant="8" symbolic="YES" id="DZv-Oq-Y8O"/>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="centerX" secondItem="3og-5n-mKA" secondAttribute="centerX" id="blh-dN-0bZ"/>
-                            <constraint firstItem="qVR-69-k4v" firstAttribute="top" secondItem="3lv-Ad-5yR" secondAttribute="bottom" constant="8" symbolic="YES" id="cXb-C1-sDj"/>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="trailing" secondItem="qVR-69-k4v" secondAttribute="trailing" id="eQQ-T4-o3Y"/>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="leading" secondItem="7Ck-uO-BcI" secondAttribute="leadingMargin" constant="8" id="oD6-KR-yWa"/>
-                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="top" secondItem="3og-5n-mKA" secondAttribute="bottom" constant="8" id="vTL-t3-dzz"/>
+                            <constraint firstItem="twD-Wf-et5" firstAttribute="top" secondItem="qVR-69-k4v" secondAttribute="bottom" constant="20" id="7DO-mc-YgL"/>
+                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="centerX" secondItem="3og-5n-mKA" secondAttribute="centerX" id="7cs-mE-dEK"/>
+                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="leading" secondItem="7Ck-uO-BcI" secondAttribute="leadingMargin" constant="4" id="FoU-g5-SNN"/>
+                            <constraint firstItem="3og-5n-mKA" firstAttribute="leading" secondItem="7Ck-uO-BcI" secondAttribute="leadingMargin" id="H6F-pB-IgC"/>
+                            <constraint firstItem="3lv-Ad-5yR" firstAttribute="top" secondItem="3og-5n-mKA" secondAttribute="bottom" constant="8" id="Ic4-Gf-of6"/>
+                            <constraint firstItem="3og-5n-mKA" firstAttribute="top" secondItem="8uM-z7-tDW" secondAttribute="bottom" constant="15" id="Vel-IK-qCk"/>
+                            <constraint firstItem="o9q-pa-5i8" firstAttribute="leading" secondItem="7Ck-uO-BcI" secondAttribute="leadingMargin" constant="4" id="VyR-h5-edK"/>
+                            <constraint firstItem="3og-5n-mKA" firstAttribute="trailing" secondItem="7Ck-uO-BcI" secondAttribute="trailingMargin" id="jY1-dz-DR5"/>
+                            <constraint firstItem="twD-Wf-et5" firstAttribute="top" secondItem="o9q-pa-5i8" secondAttribute="bottom" constant="20" id="jYo-Qj-ivT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3lv-Ad-5yR" secondAttribute="trailing" constant="4" id="mE5-W7-Wf9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qVR-69-k4v" secondAttribute="trailing" constant="4" id="sUn-y4-f7D"/>
+                            <constraint firstItem="o9q-pa-5i8" firstAttribute="top" secondItem="3lv-Ad-5yR" secondAttribute="bottom" constant="9" id="v8S-Ct-dpl"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="tvChat" destination="3og-5n-mKA" id="e7D-Kp-Be2"/>
                         <outlet property="txtMessage" destination="3lv-Ad-5yR" id="NoP-X9-gDB"/>

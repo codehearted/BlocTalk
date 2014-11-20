@@ -178,6 +178,17 @@
     if (error) {
         NSLog(@"Send Error:%@", [error localizedDescription]);
         return NO;
+    } else {
+        MCPeerID *peerID = [[_session connectedPeers] lastObject];
+        NSString *conversation = self.historyByPeer[peerID.displayName];
+        if (conversation == nil) conversation = @"";
+        conversation = [conversation stringByAppendingFormat:@"%@> %@\n",@"Me",message];
+        if ([conversation isKindOfClass:[NSString class]]) {
+            self.historyByPeer[peerID.displayName] = conversation;
+        } else {
+            NSLog(@"nil conversation");
+        }
+
     }
 
     return YES;

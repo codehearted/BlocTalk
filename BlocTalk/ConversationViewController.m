@@ -152,7 +152,7 @@
     NSString *convo = [MCManager sharedInstance].historyByPeer[peerDisplayName];
     [_tvChat performSelectorOnMainThread:@selector(setText:)
                               withObject:convo
-                           waitUntilDone:NO];
+                           waitUntilDone:YES];
     
     [self performSelectorOnMainThread:@selector(saveConversationStateToDefaults)
                            withObject:nil

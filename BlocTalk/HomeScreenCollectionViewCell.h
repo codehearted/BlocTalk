@@ -10,9 +10,8 @@
 
 @interface HomeScreenCollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *cellImage;
-@property (strong, nonatomic) IBOutlet UILabel *cellLabel;
-
-@property (strong, nonatomic) IBOutlet UIImageView *cellImage;
 @property (strong, nonatomic) IBOutlet UILabel *cellNameLabel;
+@property (assign, atomic)      NSInteger cellId;
+
 
 @end

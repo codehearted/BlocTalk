@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ConversationViewController : UIViewController
+@interface ConversationViewController : UIViewController <UITextFieldDelegate>
+
+@property (strong, nonatomic) NSString *personName;
+@property (weak, nonatomic) IBOutlet UITextField *txtMessage;
+@property (weak, nonatomic) IBOutlet UITextView *tvChat;
+
+-(IBAction)sendMessage:(id)sender;
+-(IBAction)cancelMessage:(id)sender;
 
 @end

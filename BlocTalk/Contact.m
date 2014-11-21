@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Murphy. All rights reserved.
 //
 
-#import "ContactList.h"
+#import "Contact.h"
 
-@implementation ContactList
+@implementation Contact
 
 @synthesize thumbnailImage;
-@synthesize name;
+@synthesize firstName;
 
 @end

@@ -20,8 +20,8 @@
     // Override point for customization after application launch.
     
     self.mcManager = [MCManager sharedInstance];
-    NSString *name = [[UIDevice currentDevice] name];
-    [self.mcManager setupPeerAndSessionWithDisplayName:name];
+    self.localUsername = [[UIDevice currentDevice] name];
+    [self.mcManager setupPeerAndSessionWithDisplayName:self.localUsername];
     return YES;
 }
 

@@ -13,6 +13,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MCManager *mcManager;
-
+@property (strong, nonatomic) NSString *localUsername;
 @end
 

@@ -12,6 +12,7 @@
 #import "Contact.h"
 #import "ConversationViewController.h"
 #import "MCManager.h"
+#import "AppDelegate.h"
 
 @import AddressBook;
 
@@ -38,6 +39,7 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     _arrConnectedPeers = [[NSMutableArray alloc] init];
     
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -49,6 +51,9 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     
     // UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh" style:UIBarButtonItemStylePlain target:@selector(refresh:) action:nil];
     // self.navigationItem.leftBarButtonItem = refreshButton;
+    
+    self.navigationItem.leftBarButtonItem.title = (@"%@", [[UIDevice currentDevice] name]);
+    //.text = @"test";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,21 +101,17 @@ static NSString * const reuseIdentifier = @"contactCollectionCell";
     }
 }
 
+#pragma mark IBActions
+
+-(IBAction)usernameClicked:(id)sender {
+    NSLog(@"Username changed to %@",[sender title]);
+}
+
 - (IBAction)refresh:(id)sender {
     [self.collectionView reloadData];
     NSLog(@"Refreshed (%d found)",[self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:0]);
 }
 
-/*
-- (IBAction)browseForPeers:(id)sender {
-    MCManager *multipeerMgr = [MCManager sharedInstance];
-    [multipeerMgr browseForDevices];
-
-    [self presentViewController:multipeerMgr.browser
-                       animated:YES
-                     completion:nil];
-}
-*/
 
 #pragma mark <UICollectionViewDelegate>
 

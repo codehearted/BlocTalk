@@ -8,6 +8,7 @@
 
 #import "MCManager.h"
 #import "Contact.h"
+#import "ConversationViewController.h"
 
 @import MultipeerConnectivity;
 
@@ -31,6 +32,7 @@
         _session = nil;
         _browser = nil;
         _advertiser = nil;
+        self.historyByPeer = [@{} mutableCopy];
     }
     
     return self;
@@ -38,7 +40,7 @@
 
 #pragma mark - Public method implementation
 
--(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName{
+-(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName {
     _peerID = [[MCPeerID alloc] initWithDisplayName:displayName];
     
     _session = [[MCSession alloc] initWithPeer:_peerID];
@@ -51,8 +53,20 @@
     
     _browser = [[MCNearbyServiceBrowser alloc] initWithPeer:_peerID serviceType:@"chat-files"];
     _browser.delegate = self;
-    [_browser startBrowsingForPeers];
+    [self refreshPeers];
 }
+
+-(void)refreshPeers {
+    [_browser startBrowsingForPeers];
+    int browsingTime = 60;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(browsingTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_browser stopBrowsingForPeers];
+        NSLog(@"Stopped browsing.");
+    });
+}
+
+
 
 #pragma mark - MCSession Delegate method implementation
 
@@ -73,9 +87,19 @@
                                                               encoding:NSUTF8StringEncoding]
                            };
 
+    // Save data
+    NSString *conversation = self.historyByPeer[peerID.displayName];
+    if (conversation == nil) {
+        self.historyByPeer[peerID.displayName] = @"";
+        conversation = self.historyByPeer[peerID.displayName];
+    }
+    conversation = [conversation stringByAppendingFormat:@"%@> %@\n",peerID.displayName,dict[@"textData"]];
+    self.historyByPeer[peerID.displayName] = conversation;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidReceiveDataNotification"
                                                         object:nil
                                                       userInfo:dict];
+    
+
 }
 
 -(void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress {
@@ -118,10 +142,14 @@
     newPeer.firstName = @"Fred";
     self.activePeers = [NSArray arrayWithObject:newPeer];
     
-    [_browser stopBrowsingForPeers];
 }
 
 -(void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID {
+    _peerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name];
+    _session = [[MCSession alloc] initWithPeer:peerID];
+    _session.delegate = self;
+    
+    
     
 }
 
@@ -133,6 +161,37 @@
     _session.delegate = self;
     
     invitationHandler(YES, _session);
+}
+
+#pragma mark - Send Message
+
+-(BOOL)sendMessage:(NSString*)message {
+    
+    NSData *dataToSend = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    
+    [self.session sendData:dataToSend
+                   toPeers:[_session connectedPeers]
+                  withMode:MCSessionSendDataReliable
+                     error:&error];
+    
+    if (error) {
+        NSLog(@"Send Error:%@", [error localizedDescription]);
+        return NO;
+    } else {
+        MCPeerID *peerID = [[_session connectedPeers] lastObject];
+        NSString *conversation = self.historyByPeer[peerID.displayName];
+        if (conversation == nil) conversation = @"";
+        conversation = [conversation stringByAppendingFormat:@"%@> %@\n",@"Me",message];
+        if ([conversation isKindOfClass:[NSString class]]) {
+            self.historyByPeer[peerID.displayName] = conversation;
+        } else {
+            NSLog(@"nil conversation");
+        }
+
+    }
+
+    return YES;
 }
 
 @end
